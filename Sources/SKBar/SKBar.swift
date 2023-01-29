@@ -156,9 +156,9 @@ extension SKBar {
     public func reload() {
         barCollectionView.reloadData()
         underlineView.backgroundColor = configuration?.underlineColor
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [self] in
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [self] in
             moveIndicator(toIndex: selectedIndex)
-        }
+//        }
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -235,12 +235,12 @@ extension SKBar: UICollectionViewDelegate {
             }
             
             selectedIndex = index
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
                 print("selected index changed to", index)
                 barCollectionView.scrollToItem(at: newSelectedIndexPath, at: .centeredHorizontally, animated: true)
                 moveIndicator(toIndex: selectedIndex)
                 delegate?.didSelectSKBarItemAt(self, index)
-            }
+//            }
         }
     }
 }

@@ -6,18 +6,18 @@
 //
 
 import UIKit
-import EasyPeasy
 import SKBar
+import EasyPeasy
 
 class ViewController: UIViewController {
 
     let config = SKBarConfiguration(titleColor: .black,
-                                    selectedTitleColor: .systemPink,
-                                    highlightedTitleColor: .blue,
                                     font: .systemFont(ofSize: 18),
+                                    selectedTitleColor: .systemPink,
                                     selectedFont: .systemFont(ofSize: 15),
-                                    indicatorColor: .black,
-                                    eparatorColor: .black.withAlphaComponent(0.3))
+                                    highlightedTitleColor: .blue,
+                                    indicatorColor: .systemPink,
+                                    separatorColor: .systemPink.withAlphaComponent(0.2))
     
     let content = [
         SKBarContentModel(title: "Welcome"),
@@ -45,12 +45,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         
         view.addSubview(skBar)
-        skBar.easy.layout(
-            Center(),
-            Leading(),
-            Trailing(),
-            Height(50)
-        )
+        skBar.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: 50)
         
         skBar.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         skBar.interItemSpacing = 20

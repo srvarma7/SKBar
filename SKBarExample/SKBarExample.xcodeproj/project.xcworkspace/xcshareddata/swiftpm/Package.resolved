@@ -8,15 +8,6 @@
         "revision" : "b0028f63d47bcb32e37d8abb9cc5d5a781742a4e",
         "version" : "1.10.0"
       }
-    },
-    {
-      "identity" : "skbar",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/srvarma7/SKBar.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "023c442bcb8e2936e7533b5cae5f2a0991fa62ca"
-      }
     }
   ],
   "version" : 2

@@ -7,16 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E54AD9612986673F00065321 /* SKBar in Frameworks */ = {isa = PBXBuildFile; productRef = E54AD9602986673F00065321 /* SKBar */; };
 		E5F17B0029865EA400676B9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17AFF29865EA400676B9A /* AppDelegate.swift */; };
 		E5F17B0229865EA400676B9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17B0129865EA400676B9A /* SceneDelegate.swift */; };
 		E5F17B0429865EA400676B9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17B0329865EA400676B9A /* ViewController.swift */; };
 		E5F17B0729865EA400676B9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5F17B0529865EA400676B9A /* Main.storyboard */; };
 		E5F17B0929865EA700676B9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5F17B0829865EA700676B9A /* Assets.xcassets */; };
 		E5F17B0C29865EA700676B9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5F17B0A29865EA700676B9A /* LaunchScreen.storyboard */; };
-		E5F17B1529865F1F00676B9A /* SKBar in Frameworks */ = {isa = PBXBuildFile; productRef = E5F17B1429865F1F00676B9A /* SKBar */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E54AD95E2986673000065321 /* SKBar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SKBar; path = ..; sourceTree = "<group>"; };
 		E5F17AFC29865EA400676B9A /* SKBarExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKBarExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5F17AFF29865EA400676B9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E5F17B0129865EA400676B9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,18 +33,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5F17B1529865F1F00676B9A /* SKBar in Frameworks */,
+				E54AD9612986673F00065321 /* SKBar in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E54AD95F2986673F00065321 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E54AD95E2986673000065321 /* SKBar */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		E5F17AF329865EA400676B9A = {
 			isa = PBXGroup;
 			children = (
 				E5F17AFE29865EA400676B9A /* SKBarExample */,
 				E5F17AFD29865EA400676B9A /* Products */,
+				E54AD95F2986673F00065321 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,7 +96,7 @@
 			);
 			name = SKBarExample;
 			packageProductDependencies = (
-				E5F17B1429865F1F00676B9A /* SKBar */,
+				E54AD9602986673F00065321 /* SKBar */,
 			);
 			productName = SKBarExample;
 			productReference = E5F17AFC29865EA400676B9A /* SKBarExample.app */;
@@ -117,7 +127,6 @@
 			);
 			mainGroup = E5F17AF329865EA400676B9A;
 			packageReferences = (
-				E5F17B1329865F1F00676B9A /* XCRemoteSwiftPackageReference "SKBar" */,
 			);
 			productRefGroup = E5F17AFD29865EA400676B9A /* Products */;
 			projectDirPath = "";
@@ -367,21 +376,9 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		E5F17B1329865F1F00676B9A /* XCRemoteSwiftPackageReference "SKBar" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/srvarma7/SKBar.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		E5F17B1429865F1F00676B9A /* SKBar */ = {
+		E54AD9602986673F00065321 /* SKBar */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = E5F17B1329865F1F00676B9A /* XCRemoteSwiftPackageReference "SKBar" */;
 			productName = SKBar;
 		};
 /* End XCSwiftPackageProductDependency section */
