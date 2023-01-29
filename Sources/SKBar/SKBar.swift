@@ -62,7 +62,7 @@ public class SKBar: UIView {
         }
     }
     
-    var items: [SKBarContentModel] = [] {
+    public var items: [SKBarContentModel] = [] {
         didSet {
             guard oldValue != items else {
                 print("Not refreshing as items are same")
@@ -72,7 +72,7 @@ public class SKBar: UIView {
         }
     }
     
-    var configuration: SKBarConfiguration? {
+    public var configuration: SKBarConfiguration? {
         didSet {
             guard oldValue != configuration else {
                 print("Not refreshing as configuration is same")
