@@ -17,7 +17,7 @@ public struct SKBarConfiguration: Equatable {
     let highlightedTitleColor: UIColor?
     
     let indicatorColor: UIColor
-    let separatorColor: UIColor
+    let underlineColor: UIColor
     
     
     public init(titleColor: UIColor,
@@ -34,6 +34,6 @@ public struct SKBarConfiguration: Equatable {
         self.selectedFont = selectedFont
         self.highlightedTitleColor = highlightedTitleColor
         self.indicatorColor = indicatorColor
-        self.separatorColor = separatorColor
+        self.underlineColor = separatorColor
     }
 }

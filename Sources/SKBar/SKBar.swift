@@ -20,8 +20,6 @@ public protocol SKBarDelegate: AnyObject {
     func didSelectSKBarItemAt(_ skBar: SKBar, _ index: Int)
 }
 
-public final class TabControlCollectionView: UICollectionView { }
-
 public class SKBar: UIView {
     
     
@@ -99,13 +97,6 @@ public class SKBar: UIView {
         return view
     }()
     
-    lazy var horizontalFlowLayout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
-        //        layout.estimatedItemSize = CGSize(width: 1, height: 1)
-        return layout
-    }()
-    
     lazy private var barCollectionView: SKBarCV = {
         let cv = SKBarCV.create()
         cv.dataSource = self
@@ -164,6 +155,7 @@ public class SKBar: UIView {
 extension SKBar {
     public func reload() {
         barCollectionView.reloadData()
+        underlineView.backgroundColor = configuration?.underlineColor
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [self] in
             moveIndicator(toIndex: selectedIndex)
         }
