@@ -56,7 +56,7 @@ extension SKBarBaseCell {
             return
         }
         self.isActive = isActive
-        let baseDuration = 0.5
+        let baseDuration = 0.3
         let finalDuration = isActive ? baseDuration + 0.1 : baseDuration
         
         UIView.transition(with: title, duration: finalDuration, options: .transitionCrossDissolve) { [self] in

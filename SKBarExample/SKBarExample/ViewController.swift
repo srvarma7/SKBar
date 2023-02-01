@@ -10,49 +10,50 @@ import SKBar
 import EasyPeasy
 
 class ViewController: UIViewController {
-
-    let config = SKBarConfiguration(titleColor: .black,
-                                    font: .systemFont(ofSize: 18),
-                                    selectedTitleColor: .systemPink,
-                                    selectedFont: .systemFont(ofSize: 15),
-                                    highlightedTitleColor: .blue,
-                                    indicatorColor: .systemPink,
-                                    separatorColor: .systemPink.withAlphaComponent(0.2))
     
-    let content = [
-        SKBarContentModel(title: "Welcome"),
-        SKBarContentModel(title: "to"),
-        SKBarContentModel(title: "SRVAppBar"),
-        SKBarContentModel(title: "This"),
-        SKBarContentModel(title: "is"),
-        SKBarContentModel(title: "a"),
-        SKBarContentModel(title: "very"),
-        SKBarContentModel(title: "simple"),
-        SKBarContentModel(title: "example"),
-        SKBarContentModel(title: "project"),
-        SKBarContentModel(title: "with"),
-        SKBarContentModel(title: "Title"),
-        SKBarContentModel(title: "theme"),
-    ]
+    let skBarEx1 = SKBar.ex1(edgePadding: 20, interItemSpacing: 28)
+    let skBarEx2 = SKBar.ex2(edgePadding: 0, interItemSpacing: 15)
+    let skBarEx3 = SKBar.ex3(edgePadding: 0, interItemSpacing: 10)
+    let skBarEx4 = SKBar.ex4(edgePadding: 15, interItemSpacing: 28)
+    let skBarEx5 = SKBar.ex5(edgePadding: 0, interItemSpacing: 28)
+    let skBarEx6 = SKBar.ex6(edgePadding: 0, interItemSpacing: 5)
     
-    let titleTheme: SKBarContentType = .title
-    
-    lazy var skBar = SKBar(frame: .zero, theme: titleTheme)
-    
+    let spacing: CGFloat = 20
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        view.addSubview(skBar)
-        skBar.frame = CGRect(x: 0, y: 100, width: view.bounds.width, height: 50)
+        view.addSubview(skBarEx1)
+        skBarEx1.easy.layout(Top().to(view, .topMargin), Leading(), Trailing(), Height(50))
+        skBarEx1.delegate = self
         
-        skBar.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        skBar.interItemSpacing = 20
-        skBar.configuration = config
-        skBar.items = content
+        view.addSubview(skBarEx2)
+        skBarEx2.easy.layout(Top(spacing).to(skBarEx1), Leading(), Trailing(), Height(50))
+        skBarEx2.delegate = self
+
+        view.addSubview(skBarEx3)
+        skBarEx3.easy.layout(Top(spacing).to(skBarEx2), Leading(), Trailing(), Height(50))
+        skBarEx3.delegate = self
+
+        view.addSubview(skBarEx4)
+        skBarEx4.easy.layout(Top(spacing).to(skBarEx3), Leading(), Trailing(), Height(50))
+        skBarEx4.delegate = self
+
+
+        view.addSubview(skBarEx5)
+        skBarEx5.easy.layout(Top(spacing).to(skBarEx4), Leading(), Trailing(), Height(50))
+        skBarEx5.delegate = self
+
+        view.addSubview(skBarEx6)
+        skBarEx6.alignment = .leading
+        skBarEx6.easy.layout(Top(spacing).to(skBarEx5), Leading(), Trailing(), Height(50))
+        skBarEx6.delegate = self
     }
-
-
 }
 
+extension ViewController: SKBarDelegate {
+    func didSelectSKBarItemAt(_ skBar: SKBar, _ index: Int) {
+        print("Selected item at", index)
+    }
+}
