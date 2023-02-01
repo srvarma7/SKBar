@@ -93,7 +93,7 @@ public class SKBar: UIView {
     
     lazy var underlineView: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -135,6 +135,7 @@ public class SKBar: UIView {
             Height(1)
         )
         addSubview(indicatorView)
+        indicatorView.frame = .zero
     }
     
     required init?(coder: NSCoder) {
@@ -143,8 +144,8 @@ public class SKBar: UIView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        moveIndicator(toIndex: selectedIndex, animated: false)
-        moveIndicator(toIndex: selectedIndex, animated: false)
+//        moveIndicator(toIndex: selectedIndex, animated: false)
+//        moveIndicator(toIndex: selectedIndex, animated: false)
     }
 }
 
@@ -155,10 +156,13 @@ public class SKBar: UIView {
 extension SKBar {
     public func reload() {
         barCollectionView.reloadData()
-        underlineView.backgroundColor = configuration?.underlineColor
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [self] in
+        UIView.animate(withDuration: 0.2, delay: 0.1) { [self] in
+            underlineView.backgroundColor = configuration?.underlineColor
+            indicatorView.backgroundColor = configuration?.indicatorColor
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [self] in
             moveIndicator(toIndex: selectedIndex)
-//        }
+        }
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -235,12 +239,11 @@ extension SKBar: UICollectionViewDelegate {
             }
             
             selectedIndex = index
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
-                print("selected index changed to", index)
-                barCollectionView.scrollToItem(at: newSelectedIndexPath, at: .centeredHorizontally, animated: true)
-                moveIndicator(toIndex: selectedIndex)
-                delegate?.didSelectSKBarItemAt(self, index)
-//            }
+            barCollectionView.scrollToItem(at: newSelectedIndexPath, at: .centeredHorizontally, animated: true)
+            moveIndicator(toIndex: selectedIndex)
+            delegate?.didSelectSKBarItemAt(self, index)
+        } else {
+            moveIndicator(toIndex: selectedIndex)
         }
     }
 }
@@ -320,6 +323,34 @@ extension SKBar: UICollectionViewDelegateFlowLayout {
 
 
 extension SKBar {
+    public func moveIndicator(forPercentage percentage: CGFloat, from: Int, to: Int) {
+        let fromIndexPath = IndexPath(row: from, section: 0)
+        let toIndexPath   = IndexPath(row: to, section: 0)
+        
+        guard let fromCell = barCollectionView.cellForItem(at: fromIndexPath) else { return }
+        guard let toCell   = barCollectionView.cellForItem(at: toIndexPath) else { return }
+        
+        let fromFrame = barCollectionView.convert(fromCell.frame, to: barCollectionView.superview)
+        let toFrame   = barCollectionView.convert(toCell.frame, to: barCollectionView.superview)
+        
+        let xPosition = (fromFrame.minX * (1 - percentage)) + toFrame.minX * percentage
+        let width     = (fromFrame.width * (1 - percentage)) + toFrame.width * percentage
+        
+        let toIndicatorFrame = CGRect(x: xPosition,
+                                      y: indicatorView.frame.minY,
+                                      width: width,
+                                      height: indicatorView.frame.height)
+        
+        print("fromFrame       ", fromFrame)
+        print("toFrame         ", toFrame)
+        print("toIndicatorFrame", toIndicatorFrame, "\n")
+        
+        UIView.animate(withDuration: 0.0, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
+            indicatorView.frame = toIndicatorFrame
+            layoutIfNeeded()
+        } completion: { _ in }
+    }
+    
     private func moveIndicator(toIndex: Int, animated: Bool = true) {
         let cellIndexPath = IndexPath(row: toIndex, section: 0)
         guard let cell = barCollectionView.cellForItem(at: cellIndexPath) else { return }
@@ -333,10 +364,15 @@ extension SKBar {
                 indicatorPadding = 5
         }
         let indicatorFrame = CGRect(x: frame.minX + indicatorPadding, y: barCollectionView.frame.height - indicatorHeight, width: frame.width - (indicatorPadding*2), height: indicatorHeight)
+        
+        if indicatorView.frame == .zero {
+            indicatorView.frame = indicatorFrame // to eliminate the initial indication animation that comes from .zero to cell position.
+        }
+        
         if animated {
             UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
                 indicatorView.frame = indicatorFrame
-                indicatorView.indicatorView.backgroundColor = configuration?.indicatorColor
+                indicatorView.backgroundColor = configuration?.indicatorColor
                 layoutIfNeeded()
             } completion: { _ in }
         } else {
