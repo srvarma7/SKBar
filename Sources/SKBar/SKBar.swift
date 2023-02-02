@@ -363,10 +363,14 @@ extension SKBar {
         let cellFrame = cell.frame
         let frame = barCollectionView.convert(cellFrame, to: barCollectionView.superview)
         
-        let indicatorFrame = CGRect(x: frame.minX + indicatorHInset, y: barCollectionView.frame.height - indicatorHeight, width: frame.width - (indicatorHInset*2), height: indicatorHeight)
+        let indicatorFrame = CGRect(x: frame.minX + indicatorHInset,
+                                    y: barCollectionView.frame.height - indicatorHeight,
+                                    width: frame.width - (indicatorHInset*2),
+                                    height: indicatorHeight)
         
         if indicatorView.frame == .zero {
-            indicatorView.frame = indicatorFrame // to eliminate the initial indication animation that comes from .zero to cell position.
+            // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
+            indicatorView.frame = indicatorFrame
         }
         
         if animated {
