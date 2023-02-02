@@ -8,9 +8,9 @@
 import UIKit
 
 public struct SKBarContentModel: Equatable {
-    let title: String
-    var image: UIImage? = nil
-    var selectedImage: UIImage? = nil
+    public let title: String
+    public var image: UIImage? = nil
+    public var selectedImage: UIImage? = nil
     
     public init(title: String, image: UIImage? = nil, selectedImage: UIImage? = nil) {
         self.title = title
