@@ -52,6 +52,12 @@ public class SKBar: UIView {
         }
     }
     
+    public var indicatorHInset: CGFloat = .zero {
+        didSet {
+            reload()
+        }
+    }
+    
     public var interItemSpacing: CGFloat = 5 {
         didSet {
             guard oldValue != interItemSpacing else {
@@ -336,9 +342,9 @@ extension SKBar {
         let xPosition = (fromFrame.minX * (1 - percentage)) + toFrame.minX * percentage
         let width     = (fromFrame.width * (1 - percentage)) + toFrame.width * percentage
         
-        let toIndicatorFrame = CGRect(x: xPosition,
+        let toIndicatorFrame = CGRect(x: xPosition + indicatorHInset,
                                       y: indicatorView.frame.minY,
-                                      width: width,
+                                      width: width - (indicatorHInset*2),
                                       height: indicatorView.frame.height)
         
         print("fromFrame       ", fromFrame)
@@ -356,17 +362,15 @@ extension SKBar {
         guard let cell = barCollectionView.cellForItem(at: cellIndexPath) else { return }
         let cellFrame = cell.frame
         let frame = barCollectionView.convert(cellFrame, to: barCollectionView.superview)
-        let indicatorPadding: CGFloat
-        switch theme {
-            case .title:
-                indicatorPadding = 0
-            case .imageAndTitle:
-                indicatorPadding = 5
-        }
-        let indicatorFrame = CGRect(x: frame.minX + indicatorPadding, y: barCollectionView.frame.height - indicatorHeight, width: frame.width - (indicatorPadding*2), height: indicatorHeight)
+        
+        let indicatorFrame = CGRect(x: frame.minX + indicatorHInset,
+                                    y: barCollectionView.frame.height - indicatorHeight,
+                                    width: frame.width - (indicatorHInset*2),
+                                    height: indicatorHeight)
         
         if indicatorView.frame == .zero {
-            indicatorView.frame = indicatorFrame // to eliminate the initial indication animation that comes from .zero to cell position.
+            // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
+            indicatorView.frame = indicatorFrame
         }
         
         if animated {

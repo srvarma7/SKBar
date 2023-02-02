@@ -43,6 +43,7 @@ extension SKBar {
         skBar.contentInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
         skBar.interItemSpacing = interItemSpacing
         skBar.configuration = config
+        skBar.indicatorHInset = 20
         skBar.items = itemsWithImages.reversed()
         skBar.alignment = .leading
         
@@ -92,6 +93,7 @@ extension SKBar {
         let padding: CGFloat = edgePadding
         skBar.contentInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
         skBar.interItemSpacing = interItemSpacing
+        skBar.indicatorHInset = 5
         skBar.configuration = config
         skBar.items = Array(itemsWithImages[0...1])
         skBar.alignment = .leading

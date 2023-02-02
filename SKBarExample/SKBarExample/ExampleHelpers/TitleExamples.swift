@@ -67,6 +67,7 @@ extension SKBar {
         
         let padding: CGFloat = edgePadding
         skBar.contentInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
+        skBar.indicatorHInset = 5
         skBar.interItemSpacing = interItemSpacing
         skBar.configuration = config
         skBar.items = Array(titleItems[0...2])
