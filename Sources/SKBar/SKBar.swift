@@ -233,6 +233,11 @@ extension SKBar: UICollectionViewDelegate {
     }
     
     public func setSelectedIndex(_ index: Int, animated: Bool = true) {
+        guard let _ = items[safe: index] else {
+            assertionFailure("Index out of bounds. Bar item at index - \(index) is not available to select.")
+            return
+        }
+        
         if selectedIndex != index {
             let oldSelectedIndexPath = IndexPath(row: selectedIndex, section: 0)
             let newSelectedIndexPath = IndexPath(row: index, section: 0)
@@ -245,7 +250,7 @@ extension SKBar: UICollectionViewDelegate {
             }
             
             selectedIndex = index
-            barCollectionView.scrollToItem(at: newSelectedIndexPath, at: .centeredHorizontally, animated: true)
+            barCollectionView.scrollToItem(at: newSelectedIndexPath, at: .centeredHorizontally, animated: animated)
             moveIndicator(toIndex: selectedIndex)
             delegate?.didSelectSKBarItemAt(self, index)
         } else {
