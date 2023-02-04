@@ -234,7 +234,7 @@ extension SKBar: UICollectionViewDelegate {
     
     public func setSelectedIndex(_ index: Int, animated: Bool = true) {
         guard let _ = items[safe: index] else {
-            assertionFailure("Index out of bounds. Bar item at index - \(index) is not available to select.")
+//             assertionFailure("Index out of bounds. Bar item at index - \(index) is not available to select.")
             return
         }
         
