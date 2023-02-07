@@ -38,7 +38,7 @@ public class SKBar: UIView {
         }
     }
     
-    public var delegate: SKBarDelegate?
+    public weak var delegate: SKBarDelegate?
     
     private(set) var selectedIndex = 0
     
