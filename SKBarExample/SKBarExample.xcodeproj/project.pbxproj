@@ -11,6 +11,7 @@
 		E54AD9612986673F00065321 /* SKBar in Frameworks */ = {isa = PBXBuildFile; productRef = E54AD9602986673F00065321 /* SKBar */; };
 		E54AD9642986695D00065321 /* TitleExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54AD9632986695D00065321 /* TitleExamples.swift */; };
 		E54AD9672986860400065321 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54AD9662986860400065321 /* UIImage+Extension.swift */; };
+		E580014E298FE16E00D300DC /* SKBarTitleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E580014D298FE16E00D300DC /* SKBarTitleTests.swift */; };
 		E5F17B0029865EA400676B9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17AFF29865EA400676B9A /* AppDelegate.swift */; };
 		E5F17B0229865EA400676B9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17B0129865EA400676B9A /* SceneDelegate.swift */; };
 		E5F17B0429865EA400676B9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17B0329865EA400676B9A /* ViewController.swift */; };
@@ -19,11 +20,23 @@
 		E5F17B0C29865EA700676B9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5F17B0A29865EA700676B9A /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E5800148298FD91B00D300DC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E5F17AF429865EA400676B9A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E5F17AFB29865EA400676B9A;
+			remoteInfo = SKBarExample;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		E503A561298A4C470041A3ED /* TitleWithImageExamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleWithImageExamples.swift; sourceTree = "<group>"; };
 		E54AD95E2986673000065321 /* SKBar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SKBar; path = ..; sourceTree = "<group>"; };
 		E54AD9632986695D00065321 /* TitleExamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleExamples.swift; sourceTree = "<group>"; };
 		E54AD9662986860400065321 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		E5800144298FD91B00D300DC /* SKBarExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SKBarExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E580014D298FE16E00D300DC /* SKBarTitleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKBarTitleTests.swift; sourceTree = "<group>"; };
 		E5F17AFC29865EA400676B9A /* SKBarExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKBarExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5F17AFF29865EA400676B9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E5F17B0129865EA400676B9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,6 +48,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		E5800141298FD91B00D300DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E5F17AF929865EA400676B9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -71,10 +91,19 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		E5800145298FD91B00D300DC /* SKBarExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				E580014D298FE16E00D300DC /* SKBarTitleTests.swift */,
+			);
+			path = SKBarExampleTests;
+			sourceTree = "<group>";
+		};
 		E5F17AF329865EA400676B9A = {
 			isa = PBXGroup;
 			children = (
 				E5F17AFE29865EA400676B9A /* SKBarExample */,
+				E5800145298FD91B00D300DC /* SKBarExampleTests */,
 				E5F17AFD29865EA400676B9A /* Products */,
 				E54AD95F2986673F00065321 /* Frameworks */,
 			);
@@ -84,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				E5F17AFC29865EA400676B9A /* SKBarExample.app */,
+				E5800144298FD91B00D300DC /* SKBarExampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,6 +137,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		E5800143298FD91B00D300DC /* SKBarExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E580014C298FD91B00D300DC /* Build configuration list for PBXNativeTarget "SKBarExampleTests" */;
+			buildPhases = (
+				E5800140298FD91B00D300DC /* Sources */,
+				E5800141298FD91B00D300DC /* Frameworks */,
+				E5800142298FD91B00D300DC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E5800149298FD91B00D300DC /* PBXTargetDependency */,
+			);
+			name = SKBarExampleTests;
+			productName = SKBarExampleTests;
+			productReference = E5800144298FD91B00D300DC /* SKBarExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		E5F17AFB29865EA400676B9A /* SKBarExample */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = E5F17B1029865EA700676B9A /* Build configuration list for PBXNativeTarget "SKBarExample" */;
@@ -137,6 +185,10 @@
 				LastSwiftUpdateCheck = 1420;
 				LastUpgradeCheck = 1420;
 				TargetAttributes = {
+					E5800143298FD91B00D300DC = {
+						CreatedOnToolsVersion = 14.2;
+						TestTargetID = E5F17AFB29865EA400676B9A;
+					};
 					E5F17AFB29865EA400676B9A = {
 						CreatedOnToolsVersion = 14.2;
 					};
@@ -158,11 +210,19 @@
 			projectRoot = "";
 			targets = (
 				E5F17AFB29865EA400676B9A /* SKBarExample */,
+				E5800143298FD91B00D300DC /* SKBarExampleTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		E5800142298FD91B00D300DC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E5F17AFA29865EA400676B9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -176,6 +236,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		E5800140298FD91B00D300DC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E580014E298FE16E00D300DC /* SKBarTitleTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		E5F17AF829865EA400676B9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -190,6 +258,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E5800149298FD91B00D300DC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E5F17AFB29865EA400676B9A /* SKBarExample */;
+			targetProxy = E5800148298FD91B00D300DC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E5F17B0529865EA400676B9A /* Main.storyboard */ = {
@@ -211,6 +287,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		E580014A298FD91B00D300DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G43DLT797F;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swiftiny.SKBarExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SKBarExample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SKBarExample";
+			};
+			name = Debug;
+		};
+		E580014B298FD91B00D300DC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = G43DLT797F;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.swiftiny.SKBarExampleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SKBarExample.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SKBarExample";
+			};
+			name = Release;
+		};
 		E5F17B0E29865EA700676B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -384,6 +498,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E580014C298FD91B00D300DC /* Build configuration list for PBXNativeTarget "SKBarExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E580014A298FD91B00D300DC /* Debug */,
+				E580014B298FD91B00D300DC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		E5F17AF729865EA400676B9A /* Build configuration list for PBXProject "SKBarExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
