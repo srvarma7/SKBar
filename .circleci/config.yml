@@ -1,19 +1,45 @@
-
+# .circleci/config.yml
 version: 2.1
-
 jobs:
-  build:
+  build-and-test:
     macos:
-      xcode: "12.4.0"
+      xcode: 12.5.1
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: test
     steps:
       - checkout
+      - run: bundle install
       - run:
-          name: Install dependencies
-          command: |
-            set -eo pipefail
-            xcodebuild -resolvePackageDependencies -project MyProject.xcodeproj -scheme MyScheme -destination "platform=iOS Simulator,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - store_artifacts:
+          path: output
+      - store_test_results:
+          path: output/scan
+
+  adhoc:
+    macos:
+      xcode: 12.5.1
+    environment:
+      FL_OUTPUT_DIR: output
+      FASTLANE_LANE: adhoc
+    steps:
+      - checkout
+      - run: bundle install
       - run:
-          name: Build and test
-          command: |
-            set -eo pipefail
-            xcodebuild test -project MyProject.xcodeproj -scheme MyScheme -destination "platform=iOS Simulator,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO
+          name: Fastlane
+          command: bundle exec fastlane $FASTLANE_LANE
+      - store_artifacts:
+          path: output
+
+workflows:
+  build-test-adhoc:
+    jobs:
+      - build-and-test
+      - adhoc:
+          filters:
+            branches:
+              only: development
+          requires:
+            - build-and-test
