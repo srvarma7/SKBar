@@ -1,7 +1,7 @@
 # .circleci/config.yml
 version: 2.1
 jobs:
-  build-and-test:
+  build:
     macos:
       xcode: 10.3.0
     resource_class: medium
@@ -10,9 +10,3 @@ workflows:
   build:
     jobs:
       - build
-      - adhoc:
-          filters:
-            branches:
-              only: development
-          requires:
-            - build
