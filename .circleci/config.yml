@@ -1,0 +1,19 @@
+
+version: 2.1
+
+jobs:
+  build:
+    macos:
+      xcode: "12.4.0"
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          command: |
+            set -eo pipefail
+            xcodebuild -resolvePackageDependencies -project MyProject.xcodeproj -scheme MyScheme -destination "platform=iOS Simulator,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO
+      - run:
+          name: Build and test
+          command: |
+            set -eo pipefail
+            xcodebuild test -project MyProject.xcodeproj -scheme MyScheme -destination "platform=iOS Simulator,name=iPhone 11" -configuration Debug ONLY_ACTIVE_ARCH=NO
