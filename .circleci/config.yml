@@ -5,8 +5,3 @@ jobs:
     macos:
       xcode: 10.3.0
     resource_class: medium
-
-workflows:
-  build:
-    jobs:
-      - build
