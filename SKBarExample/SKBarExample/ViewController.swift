@@ -11,7 +11,7 @@ import EasyPeasy
 
 class ViewController: UIViewController {
     
-    let skBarEx1 = SKBar.ex1(edgePadding: 20, interItemSpacing: 28)
+    let skBarEx1 = SKBar.ex1(edgePadding: 20, interItemSpacing: 4)
     let skBarEx2 = SKBar.ex2(edgePadding: 0, interItemSpacing: 15)
     let skBarEx3 = SKBar.ex3(edgePadding: 0, interItemSpacing: 10)
     let skBarEx4 = SKBar.ex4(edgePadding: 15, interItemSpacing: 28)
@@ -54,6 +54,6 @@ class ViewController: UIViewController {
 
 extension ViewController: SKBarDelegate {
     func didSelectSKBarItemAt(_ skBar: SKBar, _ index: Int) {
-        print("Selected item at", index)
+        print("Delegate - Selected item at", index)
     }
 }

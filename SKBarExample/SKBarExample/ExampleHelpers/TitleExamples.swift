@@ -30,11 +30,11 @@ extension SKBar {
         
         let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.3),
                                         font: .systemFont(ofSize: 18),
-                                        selectedTitleColor: .black,
+                                        selectedTitleColor: .white,
                                         selectedFont: .systemFont(ofSize: 15),
-                                        highlightedTitleColor: .blue,
-                                        indicatorColor: .black,
-                                        separatorColor: .black.withAlphaComponent(0.2))
+                                        highlightedTitleColor: .systemBlue,
+                                        indicatorColor: .systemBlue,
+                                        separatorColor: .clear)
         
         
         let titleTheme: SKBarContentType = .title
@@ -46,6 +46,9 @@ extension SKBar {
         skBar.interItemSpacing = interItemSpacing
         skBar.configuration = config
         skBar.items = titleItems
+        skBar.indicatorStyle = .capsule
+        skBar.indicatorCornerRadius = 20
+        skBar.minimumItemWidth = 40
         
         return skBar
     }

@@ -31,6 +31,7 @@ class SKBarBaseCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .clear
+//        contentView.backgroundColor = .gray.withAlphaComponent(0.3)
     }
     
     required init?(coder: NSCoder) {
