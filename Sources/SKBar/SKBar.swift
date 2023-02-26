@@ -71,9 +71,10 @@ public class SKBar: UIView {
     
     
     public enum SelectedItemVisibilityPosition {
-        case left, right, centre, natural
+        case left, right, centre
+        indirect case natural(custom: SelectedItemVisibilityPosition = .centre)
         
-        var position: UICollectionView.ScrollPosition {
+        var inScrollPosition: UICollectionView.ScrollPosition {
             switch self {
                 case .left:
                     return .left
@@ -317,14 +318,15 @@ extension SKBar: UICollectionViewDelegate {
             }
             
             selectedIndex = index
-            if activeItemVisibilityPosition == .natural, let cell = barCollectionView.cellForItem(at: newSelectedIndexPath) {
-                if visiblePercentageInSuperView(of: cell) == 100 {
-                    // Already visible, do nothing. As the item visibility behaviour is natural.
-                } else {
-                    barCollectionView.scrollToItem(at: newSelectedIndexPath, at: activeItemVisibilityPosition.position, animated: animated)
-                }
-            } else {
-                barCollectionView.scrollToItem(at: newSelectedIndexPath, at: activeItemVisibilityPosition.position, animated: animated)
+            switch activeItemVisibilityPosition {
+                case .natural(custom: let position):
+                    if let cell = barCollectionView.cellForItem(at: newSelectedIndexPath), visiblePercentageInSuperView(of: cell) == 100 {
+                        // Already visible, do nothing. As the item visibility behaviour is natural.
+                    } else {
+                        barCollectionView.scrollToItem(at: newSelectedIndexPath, at: position.inScrollPosition, animated: animated)
+                    }
+                case .centre, .left, .right:
+                    barCollectionView.scrollToItem(at: newSelectedIndexPath, at: activeItemVisibilityPosition.inScrollPosition, animated: animated)
             }
             moveIndicator(toIndex: selectedIndex)
             delegate?.didSelectSKBarItemAt(self, index)
