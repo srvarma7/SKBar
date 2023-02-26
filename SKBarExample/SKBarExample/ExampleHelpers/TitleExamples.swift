@@ -147,6 +147,7 @@ extension SKBar {
         skBar.indicatorStyle = .capsule
         skBar.indicatorCornerRadius = 20
         skBar.minimumItemWidth = 40
+        skBar.activeItemVisibilityPosition = .left
         skBar.items = SKBar.numbersInWordsTitleItems
         
         return skBar

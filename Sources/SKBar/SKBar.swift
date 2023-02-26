@@ -62,16 +62,41 @@ public class SKBar: UIView {
         }
     }
     
-    public var indicatorCornerRadius: CGFloat = 0
     public var minimumItemWidth: CGFloat = 0
     
     public var totalContentsSize: CGFloat = 0
+
     
+    // MARK: - Indicator Properties
+    
+    
+    public enum SelectedItemVisibilityPosition {
+        case left, right, centre
+        
+        var position: UICollectionView.ScrollPosition {
+            switch self {
+                case .left:
+                    return .left
+                case .right:
+                    return .right
+                case .centre:
+                    return .centeredHorizontally
+            }
+        }
+    }
+    public var indicatorCornerRadius: CGFloat = 0
     public var indicatorHeight: CGFloat = 1 {
         didSet {
             moveIndicator(toIndex: selectedIndex)
         }
     }
+    public var indicatorHInset: CGFloat = .zero {
+        didSet {
+            reload()
+        }
+    }
+    public var activeItemVisibilityPosition: SelectedItemVisibilityPosition = .centre
+    
     
     public weak var delegate: SKBarDelegate?
     
@@ -87,11 +112,6 @@ public class SKBar: UIView {
         }
     }
     
-    public var indicatorHInset: CGFloat = .zero {
-        didSet {
-            reload()
-        }
-    }
     
     public var interItemSpacing: CGFloat = 5 {
         didSet {
@@ -297,7 +317,7 @@ extension SKBar: UICollectionViewDelegate {
             }
             
             selectedIndex = index
-            barCollectionView.scrollToItem(at: newSelectedIndexPath, at: .centeredHorizontally, animated: animated)
+            barCollectionView.scrollToItem(at: newSelectedIndexPath, at: activeItemVisibilityPosition.position, animated: animated)
             moveIndicator(toIndex: selectedIndex)
             delegate?.didSelectSKBarItemAt(self, index)
         } else {
