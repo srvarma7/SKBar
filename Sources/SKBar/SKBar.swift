@@ -511,7 +511,7 @@ extension SKBar {
             case .title:
                 var itemWidth = SKBarLabelCell.size(text: item.title, font: configuration?.font).width
                 itemWidth += indicatorCornerRadius
-                if minimumItemWidth > itemWidth {
+                if itemWidth < minimumItemWidth {
                     itemWidth = minimumItemWidth
                 }
                 return itemWidth

@@ -25,6 +25,7 @@ class SKBarBaseCell: UICollectionViewCell {
     
     lazy var title: UILabel = {
         let label = UILabel()
+        label.adjustsFontSizeToFitWidth = false
         return label
     }()
     

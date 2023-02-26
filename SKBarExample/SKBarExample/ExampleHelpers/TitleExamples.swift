@@ -16,7 +16,7 @@ extension SKBar {
     
     static let numbersInWordsTitleItems: [SKBarContentModel] = {
         let general: [SKBarContentModel] = [
-            SKBarContentModel(title: "Welcome"),
+            SKBarContentModel(title: "WelcomeeeeeeeeeeeeeeeeeW"),
             SKBarContentModel(title: "to"),
             SKBarContentModel(title: "SKBar"),
             SKBarContentModel(title: "This"),
@@ -53,7 +53,7 @@ extension SKBar {
         let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.3),
                                         font: .systemFont(ofSize: 18),
                                         selectedTitleColor: .white,
-                                        selectedFont: .systemFont(ofSize: 15),
+                                        selectedFont: .systemFont(ofSize: 18),
                                         highlightedTitleColor: .systemBlue,
                                         indicatorColor: .systemBlue,
                                         separatorColor: .clear)
@@ -67,10 +67,10 @@ extension SKBar {
         skBar.contentInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
         skBar.interItemSpacing = interItemSpacing
         skBar.configuration = config
-        skBar.items = titleItems
         skBar.indicatorStyle = .capsule
         skBar.indicatorCornerRadius = 20
         skBar.minimumItemWidth = 40
+        skBar.items = titleItems
         
         return skBar
     }
@@ -80,7 +80,7 @@ extension SKBar {
         let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.3),
                                         font: .systemFont(ofSize: 18),
                                         selectedTitleColor: .black,
-                                        selectedFont: .systemFont(ofSize: 15),
+                                        selectedFont: .systemFont(ofSize: 18),
                                         highlightedTitleColor: .blue,
                                         indicatorColor: .black,
                                         separatorColor: .black.withAlphaComponent(0.1))
@@ -105,7 +105,7 @@ extension SKBar {
         let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.4),
                                         font: .systemFont(ofSize: 18),
                                         selectedTitleColor: .orange,
-                                        selectedFont: .systemFont(ofSize: 15),
+                                        selectedFont: .systemFont(ofSize: 18),
                                         highlightedTitleColor: .blue,
                                         indicatorColor: .orange,
                                         separatorColor: .orange.withAlphaComponent(0.1))
@@ -119,8 +119,8 @@ extension SKBar {
         skBar.contentInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
         skBar.interItemSpacing = interItemSpacing
         skBar.configuration = config
-        skBar.items = Array(titleItems[0...2])
         skBar.alignment = .leading
+        skBar.items = Array(titleItems[0...2])
         
         return skBar
     }
@@ -130,7 +130,7 @@ extension SKBar {
         let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.3),
                                         font: .systemFont(ofSize: 18),
                                         selectedTitleColor: .white,
-                                        selectedFont: .systemFont(ofSize: 15),
+                                        selectedFont: .systemFont(ofSize: 18),
                                         highlightedTitleColor: .systemBlue,
                                         indicatorColor: .systemBlue,
                                         separatorColor: .clear)
@@ -144,10 +144,10 @@ extension SKBar {
         skBar.contentInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
         skBar.interItemSpacing = interItemSpacing
         skBar.configuration = config
-        skBar.items = SKBar.numbersInWordsTitleItems
         skBar.indicatorStyle = .capsule
         skBar.indicatorCornerRadius = 20
         skBar.minimumItemWidth = 40
+        skBar.items = SKBar.numbersInWordsTitleItems
         
         return skBar
     }
