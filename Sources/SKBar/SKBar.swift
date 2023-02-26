@@ -337,26 +337,31 @@ extension SKBar: UICollectionViewDelegateFlowLayout {
     
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let tabWidth = frame.width
+        let barWidth = frame.width
         let contentWidthWithInterItemSpacing = totalContentSize(withCVInsets: true)
         switch theme {
             case .title:
                 switch alignment {
                     case .leading:
-                        return UIEdgeInsets(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                        barCollectionView.contentInset = .init(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                        return .zero
                     case .centre, .auto:
-                        if contentWidthWithInterItemSpacing > tabWidth {
-                            return UIEdgeInsets(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                        if contentWidthWithInterItemSpacing > barWidth {
+                            barCollectionView.contentInset = .init(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                            return .zero
                         } else {
-                            let inset = (tabWidth - contentWidthWithInterItemSpacing)/2
-                            return UIEdgeInsets(top: 0, left: inset + contentInset.left, bottom: 0, right: inset + contentInset.right)
+                            let inset = (barWidth - contentWidthWithInterItemSpacing)/2
+                            barCollectionView.contentInset = .init(top: 0, left: inset + contentInset.left, bottom: 0, right: inset + contentInset.right)
+                            return .zero
                         }
                 }
             case .imageAndTitle:
-                if contentWidthWithInterItemSpacing > tabWidth {
-                    return UIEdgeInsets(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                if contentWidthWithInterItemSpacing > barWidth {
+                    barCollectionView.contentInset = .init(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                    return .zero
                 } else {
-                    return UIEdgeInsets(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                    barCollectionView.contentInset = .init(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                    return .zero
                 }
         }
     }
