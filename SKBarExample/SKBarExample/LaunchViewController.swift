@@ -10,6 +10,8 @@ import EasyPeasy
 
 class LaunchViewController: UIViewController {
     
+    var isPlayground: Bool = true
+    
     let label = UILabel()
     
     override func viewDidLoad() {
@@ -19,9 +21,12 @@ class LaunchViewController: UIViewController {
         view.addSubview(label)
         label.easy.layout(Center())
         label.text = "SKBar"
+        if isPlayground {
+            label.text = "SKBar Playground"
+        }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let vc = MainViewController()
+        DispatchQueue.main.asyncAfter(deadline: .now() + (isPlayground ? 0.5 : 2.0)) {
+            let vc = self.isPlayground ? TestingVC() : MainViewController()
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)
         }
