@@ -10,6 +10,28 @@ import SKBar
 
 extension SKBar {
     
+    static let numbersInWords: [String] = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
+                                           "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty",
+                                           "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety", "Hundred"]
+    
+    static let numbersInWordsTitleItems: [SKBarContentModel] = {
+        let general: [SKBarContentModel] = [
+            SKBarContentModel(title: "Welcome"),
+            SKBarContentModel(title: "to"),
+            SKBarContentModel(title: "SKBar"),
+            SKBarContentModel(title: "This"),
+            SKBarContentModel(title: "is"),
+            SKBarContentModel(title: "a"),
+            SKBarContentModel(title: "large"),
+            SKBarContentModel(title: "Example"),
+            SKBarContentModel(title: "for"),
+            SKBarContentModel(title: "reuse"),
+            SKBarContentModel(title: "test"),
+        ]
+        let numbers: [SKBarContentModel] = numbersInWords.map({ SKBarContentModel(title: $0) })
+        return general + numbers
+    }()
+    
     static let titleItems = [
         SKBarContentModel(title: "Welcome"),
         SKBarContentModel(title: "to"),
@@ -26,7 +48,7 @@ extension SKBar {
         SKBarContentModel(title: "theme"),
     ]
     
-    static func ex1(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
+    static func tex1(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
         
         let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.3),
                                         font: .systemFont(ofSize: 18),
@@ -53,7 +75,7 @@ extension SKBar {
         return skBar
     }
     
-    static func ex2(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
+    static func tex2(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
         
         let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.3),
                                         font: .systemFont(ofSize: 18),
@@ -78,7 +100,7 @@ extension SKBar {
         return skBar
     }
     
-    static func ex3(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
+    static func tex3(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
         
         let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.4),
                                         font: .systemFont(ofSize: 18),
@@ -99,6 +121,33 @@ extension SKBar {
         skBar.configuration = config
         skBar.items = Array(titleItems[0...2])
         skBar.alignment = .leading
+        
+        return skBar
+    }
+    
+    static func tex4(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
+        
+        let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.3),
+                                        font: .systemFont(ofSize: 18),
+                                        selectedTitleColor: .white,
+                                        selectedFont: .systemFont(ofSize: 15),
+                                        highlightedTitleColor: .systemBlue,
+                                        indicatorColor: .systemBlue,
+                                        separatorColor: .clear)
+        
+        
+        let titleTheme: SKBarContentType = .title
+        
+        lazy var skBar = SKBar(frame: .zero, theme: titleTheme)
+        
+        let padding: CGFloat = edgePadding
+        skBar.contentInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
+        skBar.interItemSpacing = interItemSpacing
+        skBar.configuration = config
+        skBar.items = SKBar.numbersInWordsTitleItems
+        skBar.indicatorStyle = .capsule
+        skBar.indicatorCornerRadius = 20
+        skBar.minimumItemWidth = 40
         
         return skBar
     }

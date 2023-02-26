@@ -423,15 +423,7 @@ extension SKBar {
                                       width: finalWidth,
                                       height: finalHeight)
         
-//        print("fromFrame       ", fromFrame)
-//        print("toFrame         ", toFrame)
-//        print("toIndicatorFrame", toIndicatorFrame, "\n")
-        
-        UIView.animate(withDuration: 0.0, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
-            indicatorView.frame = toIndicatorFrame
-            indicatorView.layer.cornerRadius = indicatorCornerRadius
-            layoutIfNeeded()
-        } completion: { _ in }
+        _moveIndicator(frame: toIndicatorFrame, animated: true)
     }
     
     private func moveIndicator(toIndex: Int, animated: Bool = true) {
@@ -466,20 +458,24 @@ extension SKBar {
                                       width: finalWidth,
                                       height: finalHeight)
         
+        _moveIndicator(frame: toIndicatorFrame, animated: animated)
+    }
+    
+    private func _moveIndicator(frame toIndicatorFrame: CGRect, animated: Bool) {
         if indicatorView.frame == .zero {
             // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
             indicatorView.frame = toIndicatorFrame
+            indicatorView.backgroundColor = configuration?.indicatorColor
             indicatorView.layer.cornerRadius = indicatorCornerRadius
+            layoutIfNeeded()
         }
         
-        if animated {
-            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
-                indicatorView.frame = toIndicatorFrame
-                indicatorView.backgroundColor = configuration?.indicatorColor
-                indicatorView.layer.cornerRadius = indicatorCornerRadius
-                layoutIfNeeded()
-            } completion: { _ in }
-        } else {
+        UIView.animate(withDuration: animated ? 0.2 : 0.0, delay: 0, options: [.curveEaseOut]) { [self] in
+            indicatorView.frame = toIndicatorFrame
+            indicatorView.backgroundColor = configuration?.indicatorColor
+            indicatorView.layer.cornerRadius = indicatorCornerRadius
+            layoutIfNeeded()
+        } completion: { [self] _ in
             indicatorView.frame = toIndicatorFrame
         }
     }
