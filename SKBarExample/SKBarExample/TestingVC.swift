@@ -11,11 +11,11 @@ import SKBar
 
 class TestingVC: UIViewController {
     
-    let skBarTEx1 = SKBar.tex1(edgePadding: 20, interItemSpacing: 4)
+    let skBarTEx1 = SKBar.tex4(edgePadding: 20, interItemSpacing: 4)
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundPrimary
         
         view.addSubview(skBarTEx1)
         skBarTEx1.easy.layout(Bottom(100).to(view, .bottomMargin), Leading(), Trailing(), Height(50))

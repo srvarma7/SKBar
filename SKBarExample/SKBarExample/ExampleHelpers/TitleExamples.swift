@@ -127,12 +127,12 @@ extension SKBar {
     
     static func tex4(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
         
-        let config = SKBarConfiguration(titleColor: .black.withAlphaComponent(0.3),
+        let config = SKBarConfiguration(titleColor: .textSecondary,
                                         font: .systemFont(ofSize: 18),
-                                        selectedTitleColor: .white,
+                                        selectedTitleColor: .textPrimaryContrary,
                                         selectedFont: .systemFont(ofSize: 18),
                                         highlightedTitleColor: .systemBlue,
-                                        indicatorColor: .systemBlue,
+                                        indicatorColor: .accentPrimary,
                                         separatorColor: .clear)
         
         
@@ -147,7 +147,7 @@ extension SKBar {
         skBar.indicatorStyle = .capsule
         skBar.indicatorCornerRadius = 20
         skBar.minimumItemWidth = 40
-        skBar.activeItemVisibilityPosition = .left
+        skBar.activeItemVisibilityPosition = .natural
         skBar.items = SKBar.numbersInWordsTitleItems
         
         return skBar
