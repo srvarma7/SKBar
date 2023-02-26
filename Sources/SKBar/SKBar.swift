@@ -356,8 +356,9 @@ extension SKBar: UICollectionViewDelegateFlowLayout {
             case .title:
                 return CGSize(width: itemWidth, height: 40)
             case .imageAndTitle:
-                if totalContentSize(withCVInsets: true) > contentFittingSize {
-                    if itemWidth < 50 { itemWidth = 50 } // Setting min size as it is already more than the content fitting size.
+#warning("Changed to false to test the profile screen")
+                if totalContentSize(withCVInsets: false) > contentFittingSize {
+                    if itemWidth < 50 { itemWidth = 50 }                                // Setting min size as it is already more than the content fitting size.
                     return CGSize(width: itemWidth, height: 40)
                 } else {
                     var dividedWidth = contentFittingSize / CGFloat(items.count)
