@@ -71,7 +71,7 @@ public class SKBar: UIView {
     
     
     public enum SelectedItemVisibilityPosition {
-        case left, right, centre
+        case left, right, centre, natural
         
         var position: UICollectionView.ScrollPosition {
             switch self {
@@ -79,7 +79,7 @@ public class SKBar: UIView {
                     return .left
                 case .right:
                     return .right
-                case .centre:
+                case .centre, .natural:
                     return .centeredHorizontally
             }
         }
@@ -317,12 +317,34 @@ extension SKBar: UICollectionViewDelegate {
             }
             
             selectedIndex = index
-            barCollectionView.scrollToItem(at: newSelectedIndexPath, at: activeItemVisibilityPosition.position, animated: animated)
+            if activeItemVisibilityPosition == .natural, let cell = barCollectionView.cellForItem(at: newSelectedIndexPath) {
+                if visiblePercentageInSuperView(of: cell) == 100 {
+                    // Already visible, do nothing. As the item visibility behaviour is natural.
+                } else {
+                    barCollectionView.scrollToItem(at: newSelectedIndexPath, at: activeItemVisibilityPosition.position, animated: animated)
+                }
+            } else {
+                barCollectionView.scrollToItem(at: newSelectedIndexPath, at: activeItemVisibilityPosition.position, animated: animated)
+            }
             moveIndicator(toIndex: selectedIndex)
             delegate?.didSelectSKBarItemAt(self, index)
         } else {
             moveIndicator(toIndex: selectedIndex)
         }
+    }
+    
+    private func visiblePercentageInSuperView(of cell: UICollectionViewCell) -> Int {
+        guard let cellSuperView = cell.superview else {
+            debugPrint("Error finding super view for the cell")
+            return 0
+        }
+        
+        let cellFrame = cell.frame
+        let rect = cellSuperView.convert(cellFrame, from: cellSuperView)
+        let intersection = rect.intersection(cellSuperView.bounds)
+        let ratio = (intersection.width * intersection.height) / (cellFrame.width * cellFrame.height)
+        let visiblePercentage = Int(ratio * 100)
+        return visiblePercentage
     }
 }
 
