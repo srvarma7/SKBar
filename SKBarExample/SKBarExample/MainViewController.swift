@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  MainViewController.swift
 //  SKBarExample
 //
 //  Created by Sai Kallepalli on 29/01/23.
@@ -9,7 +9,7 @@ import UIKit
 import SKBar
 import EasyPeasy
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
     
     let skBarEx1 = SKBar.ex1(edgePadding: 20, interItemSpacing: 4)
     let skBarEx2 = SKBar.ex2(edgePadding: 0, interItemSpacing: 15)
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: SKBarDelegate {
+extension MainViewController: SKBarDelegate {
     func didSelectSKBarItemAt(_ skBar: SKBar, _ index: Int) {
         print("Delegate - Selected item at", index)
     }

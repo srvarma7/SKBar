@@ -11,9 +11,11 @@
 		E54AD9612986673F00065321 /* SKBar in Frameworks */ = {isa = PBXBuildFile; productRef = E54AD9602986673F00065321 /* SKBar */; };
 		E54AD9642986695D00065321 /* TitleExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54AD9632986695D00065321 /* TitleExamples.swift */; };
 		E54AD9672986860400065321 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E54AD9662986860400065321 /* UIImage+Extension.swift */; };
+		E580014E298FE16E00D300DC /* SKBarTitleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E580014D298FE16E00D300DC /* SKBarTitleTests.swift */; };
+		E5A395FD29AB7D0D008AD0B0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A395FC29AB7D0D008AD0B0 /* MainViewController.swift */; };
+		E5A395FF29AB7D80008AD0B0 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A395FE29AB7D80008AD0B0 /* LaunchViewController.swift */; };
 		E5F17B0029865EA400676B9A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17AFF29865EA400676B9A /* AppDelegate.swift */; };
 		E5F17B0229865EA400676B9A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17B0129865EA400676B9A /* SceneDelegate.swift */; };
-		E5F17B0429865EA400676B9A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F17B0329865EA400676B9A /* ViewController.swift */; };
 		E5F17B0729865EA400676B9A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5F17B0529865EA400676B9A /* Main.storyboard */; };
 		E5F17B0929865EA700676B9A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E5F17B0829865EA700676B9A /* Assets.xcassets */; };
 		E5F17B0C29865EA700676B9A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E5F17B0A29865EA700676B9A /* LaunchScreen.storyboard */; };
@@ -24,10 +26,13 @@
 		E54AD95E2986673000065321 /* SKBar */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SKBar; path = ..; sourceTree = "<group>"; };
 		E54AD9632986695D00065321 /* TitleExamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleExamples.swift; sourceTree = "<group>"; };
 		E54AD9662986860400065321 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		E5800144298FD91B00D300DC /* SKBarExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SKBarExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E580014D298FE16E00D300DC /* SKBarTitleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKBarTitleTests.swift; sourceTree = "<group>"; };
+		E5A395FC29AB7D0D008AD0B0 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		E5A395FE29AB7D80008AD0B0 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		E5F17AFC29865EA400676B9A /* SKBarExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SKBarExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E5F17AFF29865EA400676B9A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E5F17B0129865EA400676B9A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E5F17B0329865EA400676B9A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E5F17B0629865EA400676B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E5F17B0829865EA700676B9A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E5F17B0B29865EA700676B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -91,10 +96,11 @@
 		E5F17AFE29865EA400676B9A /* SKBarExample */ = {
 			isa = PBXGroup;
 			children = (
-				E54AD965298685F500065321 /* Resources */,
 				E5F17AFF29865EA400676B9A /* AppDelegate.swift */,
 				E5F17B0129865EA400676B9A /* SceneDelegate.swift */,
-				E5F17B0329865EA400676B9A /* ViewController.swift */,
+				E5A395FC29AB7D0D008AD0B0 /* MainViewController.swift */,
+				E5A395FE29AB7D80008AD0B0 /* LaunchViewController.swift */,
+				E54AD965298685F500065321 /* Resources */,
 				E54AD9622986693900065321 /* ExampleHelpers */,
 				E5F17B0529865EA400676B9A /* Main.storyboard */,
 				E5F17B0829865EA700676B9A /* Assets.xcassets */,
@@ -180,11 +186,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5F17B0429865EA400676B9A /* ViewController.swift in Sources */,
+				E5A395FD29AB7D0D008AD0B0 /* MainViewController.swift in Sources */,
 				E5F17B0029865EA400676B9A /* AppDelegate.swift in Sources */,
 				E54AD9672986860400065321 /* UIImage+Extension.swift in Sources */,
 				E5F17B0229865EA400676B9A /* SceneDelegate.swift in Sources */,
 				E54AD9642986695D00065321 /* TitleExamples.swift in Sources */,
+				E5A395FF29AB7D80008AD0B0 /* LaunchViewController.swift in Sources */,
 				E503A562298A4C470041A3ED /* TitleWithImageExamples.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
