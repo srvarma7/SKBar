@@ -51,7 +51,7 @@ class SKBarBaseCell: UICollectionViewCell {
 
 extension SKBarBaseCell {
     func animateState(isActive: Bool, completion: @escaping (Bool) -> Void) {
-        guard let cellConfiguration else {
+        guard let cellConfiguration = cellConfiguration else {
             completion(false)
             return
         }
