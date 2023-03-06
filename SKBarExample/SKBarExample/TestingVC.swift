@@ -12,6 +12,7 @@ import SKBar
 class TestingVC: UIViewController {
     
     let skBarTEx1 = SKBar.tex4(edgePadding: 20, interItemSpacing: 4)
+    let skBarTEx2 = SKBar.tex5(edgePadding: 20, interItemSpacing: 4)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,10 @@ class TestingVC: UIViewController {
         view.addSubview(skBarTEx1)
         skBarTEx1.easy.layout(Bottom(100).to(view, .bottomMargin), Leading(), Trailing(), Height(50))
         skBarTEx1.delegate = self
+        
+        view.addSubview(skBarTEx2)
+        skBarTEx2.easy.layout(Bottom(100).to(skBarTEx1, .top), Leading(), Trailing(), Height(50))
+        skBarTEx2.delegate = self
     }
     
 }

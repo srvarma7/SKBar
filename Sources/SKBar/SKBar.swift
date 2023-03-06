@@ -262,6 +262,11 @@ extension SKBar: UICollectionViewDataSource {
         let row = indexPath.row
         let item = items[row]
         cell.bind(model: item, configuration: configuration, isActive: row == selectedIndex)
+        
+        cell.contentView.layer.cornerRadius  = indicatorCornerRadius
+        cell.contentView.layer.masksToBounds = true
+        cell.contentView.clipsToBounds = true
+        
         return cell
     }
     
@@ -332,6 +337,7 @@ extension SKBar: UICollectionViewDelegate {
             delegate?.didSelectSKBarItemAt(self, index)
         } else {
             moveIndicator(toIndex: selectedIndex)
+            delegate?.didSelectSKBarItemAt(self, index)
         }
     }
     

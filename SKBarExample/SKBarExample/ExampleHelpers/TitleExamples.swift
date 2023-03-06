@@ -152,4 +152,36 @@ extension SKBar {
         
         return skBar
     }
+    
+    static func tex5(edgePadding: CGFloat, interItemSpacing: CGFloat) -> SKBar {
+        
+        let config = SKBarConfiguration(titleColor: .black,
+                                        font: .systemFont(ofSize: 18),
+                                        selectedTitleColor: .black,
+                                        selectedFont: .systemFont(ofSize: 18),
+                                        highlightedTitleColor: .clear,
+                                        indicatorColor: .clear,
+                                        separatorColor: .clear,
+                                        itemBorderColor: UIColor(named: "borderPrimary"),
+                                        itemBorderWidth: 1,
+                                        itemBackgroundColor: .gray)
+        
+        
+        
+        let titleTheme: SKBarContentType = .title
+        
+        lazy var skBar = SKBar(frame: .zero, theme: titleTheme)
+        
+        let padding: CGFloat = edgePadding
+        skBar.contentInset = UIEdgeInsets(top: 0, left: padding, bottom: 0, right: padding)
+        skBar.interItemSpacing = interItemSpacing
+        skBar.configuration = config
+        skBar.indicatorStyle = .capsule
+        skBar.indicatorCornerRadius = 20
+        skBar.minimumItemWidth = 40
+        skBar.activeItemVisibilityPosition = .natural(custom: .centre)
+        skBar.items = SKBar.numbersInWordsTitleItems
+        
+        return skBar
+    }
 }
