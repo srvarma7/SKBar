@@ -45,6 +45,14 @@ class SKBarBaseCell: UICollectionViewCell {
         imageView.image = cellData?.image
         title.textColor = cellConfiguration?.titleColor
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        contentView.layer.borderColor   = cellConfiguration?.itemBorderColor?.cgColor
+        contentView.layer.borderWidth   = cellConfiguration?.itemBorderWidth ?? 0
+        contentView.backgroundColor     = cellConfiguration?.itemBackgroundColor
+    }
 }
 
 
@@ -119,5 +127,9 @@ extension SKBarBaseCell {
         if model.selectedImage == nil {
             imageView.tintColor = isActive ? configuration.selectedTitleColor : configuration.titleColor
         }
+        
+        contentView.layer.borderColor   = configuration.itemBorderColor?.cgColor
+        contentView.layer.borderWidth   = configuration.itemBorderWidth ?? 0
+        contentView.backgroundColor     = configuration.itemBackgroundColor
     }
 }

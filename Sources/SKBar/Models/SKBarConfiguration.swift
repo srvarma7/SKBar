@@ -19,6 +19,9 @@ public struct SKBarConfiguration: Equatable {
     let indicatorColor: UIColor
     let underlineColor: UIColor
     
+    var itemBorderColor: UIColor? = nil
+    var itemBorderWidth: CGFloat? = nil
+    var itemBackgroundColor: UIColor? = nil
     
     public init(titleColor: UIColor,
                 font: UIFont,
@@ -26,7 +29,11 @@ public struct SKBarConfiguration: Equatable {
                 selectedFont: UIFont,
                 highlightedTitleColor: UIColor?,
                 indicatorColor: UIColor,
-                separatorColor: UIColor) {
+                separatorColor: UIColor,
+                itemBorderColor: UIColor? = nil,
+                itemBorderWidth: CGFloat? = nil,
+                itemBackgroundColor: UIColor? = nil
+    ) {
         
         self.titleColor = titleColor
         self.font = font
@@ -35,5 +42,8 @@ public struct SKBarConfiguration: Equatable {
         self.highlightedTitleColor = highlightedTitleColor
         self.indicatorColor = indicatorColor
         self.underlineColor = separatorColor
+        self.itemBorderColor = itemBorderColor
+        self.itemBorderWidth = itemBorderWidth
+        self.itemBackgroundColor = itemBackgroundColor
     }
 }
