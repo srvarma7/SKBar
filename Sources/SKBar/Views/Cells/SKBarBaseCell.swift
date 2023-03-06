@@ -25,12 +25,14 @@ class SKBarBaseCell: UICollectionViewCell {
     
     lazy var title: UILabel = {
         let label = UILabel()
+        label.adjustsFontSizeToFitWidth = false
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .clear
+//        contentView.backgroundColor = .gray.withAlphaComponent(0.3)
     }
     
     required init?(coder: NSCoder) {

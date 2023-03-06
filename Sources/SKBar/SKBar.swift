@@ -8,12 +8,38 @@
 import UIKit
 import EasyPeasy
 
+
+// Notification
+    // Position
+        // Top - left, right
+    // Color
+    // Size
+        // small, medium, large
+    // Style
+        // dot, square, star
+    // Dismiss
+        // onSelect, manual
+
+// Reveal items
+    
+// Floating sub menus
+
+
 public enum SKBarContentType {
     case title, imageAndTitle
 }
 
 public enum SKBarAlignment {
     case leading, centre, auto
+}
+
+public enum SKBarIndicatorLinePosition {
+    case top, bottom
+}
+
+public enum SKBarIndicatorStyle {
+//    case line(position: SKBarIndicatorLinePosition, height: CGFloat), capsule(cornerRadius: CGFloat)
+    case line, capsule
 }
 
 public protocol SKBarDelegate: AnyObject {
@@ -30,13 +56,48 @@ public class SKBar: UIView {
     
     public var theme: SKBarContentType
     
-    public var totalContentsSize: CGFloat = 0
-    
-    public var indicatorHeight: CGFloat = 1 {
+    public var indicatorStyle: SKBarIndicatorStyle = .line {
         didSet {
-            moveIndicator(toIndex: selectedIndex, animated: false)
+            reload()
         }
     }
+    
+    public var minimumItemWidth: CGFloat = 0
+    
+    public var totalContentsSize: CGFloat = 0
+
+    
+    // MARK: - Indicator Properties
+    
+    
+    public enum SelectedItemVisibilityPosition {
+        case left, right, centre
+        indirect case natural(custom: SelectedItemVisibilityPosition = .centre)
+        
+        var inScrollPosition: UICollectionView.ScrollPosition {
+            switch self {
+                case .left:
+                    return .left
+                case .right:
+                    return .right
+                case .centre, .natural:
+                    return .centeredHorizontally
+            }
+        }
+    }
+    public var indicatorCornerRadius: CGFloat = 0
+    public var indicatorHeight: CGFloat = 1 {
+        didSet {
+            moveIndicator(toIndex: selectedIndex)
+        }
+    }
+    public var indicatorHInset: CGFloat = .zero {
+        didSet {
+            reload()
+        }
+    }
+    public var activeItemVisibilityPosition: SelectedItemVisibilityPosition = .centre
+    
     
     public weak var delegate: SKBarDelegate?
     
@@ -52,16 +113,11 @@ public class SKBar: UIView {
         }
     }
     
-    public var indicatorHInset: CGFloat = .zero {
-        didSet {
-            reload()
-        }
-    }
     
     public var interItemSpacing: CGFloat = 5 {
         didSet {
             guard oldValue != interItemSpacing else {
-                print("Not refreshing as interItemSpacing is same")
+//                print("Not refreshing as interItemSpacing is same")
                 return
             }
             reload()
@@ -71,7 +127,7 @@ public class SKBar: UIView {
     public var items: [SKBarContentModel] = [] {
         didSet {
             guard oldValue != items else {
-                print("Not refreshing as items are same")
+//                print("Not refreshing as items are same")
                 return
             }
             reload()
@@ -81,7 +137,7 @@ public class SKBar: UIView {
     public var configuration: SKBarConfiguration? {
         didSet {
             guard oldValue != configuration else {
-                print("Not refreshing as configuration is same")
+//                print("Not refreshing as configuration is same")
                 return
             }
             reload()
@@ -94,6 +150,7 @@ public class SKBar: UIView {
     
     lazy private var indicatorView: SKBarIndicatorView = {
         let view = SKBarIndicatorView(frame: .zero, theme: theme)
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -115,7 +172,7 @@ public class SKBar: UIView {
     
     
     deinit {
-        print("✅✅✅ Tab Control dealloc ✅✅✅")
+//        print("✅✅✅ Tab Control dealloc ✅✅✅")
     }
     
     
@@ -125,6 +182,7 @@ public class SKBar: UIView {
     public required init(frame: CGRect, theme: SKBarContentType) {
         self.theme = theme
         super.init(frame: frame)
+        addSubview(indicatorView)
         addSubview(barCollectionView)
         barCollectionView.easy.layout(
             Top(),
@@ -140,7 +198,6 @@ public class SKBar: UIView {
             Trailing(),
             Height(1)
         )
-        addSubview(indicatorView)
         indicatorView.frame = .zero
     }
     
@@ -208,6 +265,10 @@ extension SKBar: UICollectionViewDataSource {
         return cell
     }
     
+    
+    // MARK: - Cell willDisplay
+    
+    
     public func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         guard let cell = cell as? SKBarBaseCell else {
             return
@@ -215,6 +276,13 @@ extension SKBar: UICollectionViewDataSource {
         let row = indexPath.row
         let item = items[row]
         cell.bind(model: item, configuration: configuration, isActive: row == selectedIndex)
+    }
+    
+    
+    // MARK: - Cell didEndDisplaying
+    
+    
+    public func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     }
 }
 
@@ -250,12 +318,35 @@ extension SKBar: UICollectionViewDelegate {
             }
             
             selectedIndex = index
-            barCollectionView.scrollToItem(at: newSelectedIndexPath, at: .centeredHorizontally, animated: animated)
+            switch activeItemVisibilityPosition {
+                case .natural(custom: let position):
+                    if let cell = barCollectionView.cellForItem(at: newSelectedIndexPath), visiblePercentageInSuperView(of: cell) == 100 {
+                        // Already visible, do nothing. As the item visibility behaviour is natural.
+                    } else {
+                        barCollectionView.scrollToItem(at: newSelectedIndexPath, at: position.inScrollPosition, animated: animated)
+                    }
+                case .centre, .left, .right:
+                    barCollectionView.scrollToItem(at: newSelectedIndexPath, at: activeItemVisibilityPosition.inScrollPosition, animated: animated)
+            }
             moveIndicator(toIndex: selectedIndex)
             delegate?.didSelectSKBarItemAt(self, index)
         } else {
             moveIndicator(toIndex: selectedIndex)
         }
+    }
+    
+    private func visiblePercentageInSuperView(of cell: UICollectionViewCell) -> Int {
+        guard let cellSuperView = cell.superview else {
+            debugPrint("Error finding super view for the cell")
+            return 0
+        }
+        
+        let cellFrame = cell.frame
+        let rect = cellSuperView.convert(cellFrame, from: cellSuperView)
+        let intersection = rect.intersection(cellSuperView.bounds)
+        let ratio = (intersection.width * intersection.height) / (cellFrame.width * cellFrame.height)
+        let visiblePercentage = Int(ratio * 100)
+        return visiblePercentage
     }
 }
 
@@ -270,26 +361,31 @@ extension SKBar: UICollectionViewDelegateFlowLayout {
     
     
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let tabWidth = frame.width
+        let barWidth = frame.width
         let contentWidthWithInterItemSpacing = totalContentSize(withCVInsets: true)
         switch theme {
             case .title:
                 switch alignment {
                     case .leading:
-                        return UIEdgeInsets(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                        barCollectionView.contentInset = .init(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                        return .zero
                     case .centre, .auto:
-                        if contentWidthWithInterItemSpacing > tabWidth {
-                            return UIEdgeInsets(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                        if contentWidthWithInterItemSpacing > barWidth {
+                            barCollectionView.contentInset = .init(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                            return .zero
                         } else {
-                            let inset = (tabWidth - contentWidthWithInterItemSpacing)/2
-                            return UIEdgeInsets(top: 0, left: inset + contentInset.left, bottom: 0, right: inset + contentInset.right)
+                            let inset = (barWidth - contentWidthWithInterItemSpacing)/2
+                            barCollectionView.contentInset = .init(top: 0, left: inset + contentInset.left, bottom: 0, right: inset + contentInset.right)
+                            return .zero
                         }
                 }
             case .imageAndTitle:
-                if contentWidthWithInterItemSpacing > tabWidth {
-                    return UIEdgeInsets(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                if contentWidthWithInterItemSpacing > barWidth {
+                    barCollectionView.contentInset = .init(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                    return .zero
                 } else {
-                    return UIEdgeInsets(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                    barCollectionView.contentInset = .init(top: 0, left: contentInset.left, bottom: 0, right: contentInset.right)
+                    return .zero
                 }
         }
     }
@@ -307,10 +403,11 @@ extension SKBar: UICollectionViewDelegateFlowLayout {
         
         switch theme {
             case .title:
-                return CGSize(width: SKBarLabelCell.size(text: item.title, font: configuration?.font).width, height: 40)
+                return CGSize(width: itemWidth, height: 40)
             case .imageAndTitle:
-                if totalContentSize(withCVInsets: true) > contentFittingSize {
-                    if itemWidth < 50 { itemWidth = 50 } // Setting min size as it is already more than the content fitting size.
+#warning("Changed to false to test the profile screen")
+                if totalContentSize(withCVInsets: false) > contentFittingSize {
+                    if itemWidth < 50 { itemWidth = 50 }                                // Setting min size as it is already more than the content fitting size.
                     return CGSize(width: itemWidth, height: 40)
                 } else {
                     var dividedWidth = contentFittingSize / CGFloat(items.count)
@@ -330,10 +427,16 @@ extension SKBar: UICollectionViewDelegateFlowLayout {
 }
 
 
-//MARK: - Animations
+//MARK: - Indicator Animations
 
 
 extension SKBar {
+    private func displayIndicator(show: Bool, animated: Bool = true) {
+        UIView.animate(withDuration: animated ? 0.2 : 0.0, delay: 0) { [self] in
+            indicatorView.alpha = show ? 1.0 : 0.0
+        }
+    }
+    
     public func moveIndicator(forPercentage percentage: CGFloat, from: Int, to: Int) {
         let fromIndexPath = IndexPath(row: from, section: 0)
         let toIndexPath   = IndexPath(row: to, section: 0)
@@ -345,47 +448,85 @@ extension SKBar {
         let toFrame   = barCollectionView.convert(toCell.frame, to: barCollectionView.superview)
         
         let xPosition = (fromFrame.minX * (1 - percentage)) + toFrame.minX * percentage
-        let width     = (fromFrame.width * (1 - percentage)) + toFrame.width * percentage
+        let toWidth   = (fromFrame.width * (1 - percentage)) + toFrame.width * percentage
         
-        let toIndicatorFrame = CGRect(x: xPosition + indicatorHInset,
-                                      y: indicatorView.frame.minY,
-                                      width: width - (indicatorHInset*2),
-                                      height: indicatorView.frame.height)
+        let finalWidth: CGFloat
+        let finalHeight: CGFloat
+        let finalXPosition: CGFloat
+        let finalYPosition: CGFloat
         
-        print("fromFrame       ", fromFrame)
-        print("toFrame         ", toFrame)
-        print("toIndicatorFrame", toIndicatorFrame, "\n")
+        switch indicatorStyle {
+            case .line:
+                finalXPosition = xPosition + indicatorHInset
+                finalWidth = toWidth - (indicatorHInset*2)
+                finalHeight = indicatorHeight
+                finalYPosition = barCollectionView.frame.height - indicatorHeight
+            case .capsule:
+                finalXPosition = xPosition + indicatorHInset// - (indicatorCornerRadius/2)
+                finalWidth = toWidth// + indicatorCornerRadius
+                finalHeight = toFrame.height
+                finalYPosition = toFrame.minY
+        }
         
-        UIView.animate(withDuration: 0.0, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
-            indicatorView.frame = toIndicatorFrame
-            layoutIfNeeded()
-        } completion: { _ in }
+        let toIndicatorFrame = CGRect(x: finalXPosition,
+                                      y: finalYPosition,
+                                      width: finalWidth,
+                                      height: finalHeight)
+        
+        _moveIndicator(frame: toIndicatorFrame, animated: true)
     }
     
     private func moveIndicator(toIndex: Int, animated: Bool = true) {
         let cellIndexPath = IndexPath(row: toIndex, section: 0)
         guard let cell = barCollectionView.cellForItem(at: cellIndexPath) else { return }
         let cellFrame = cell.frame
-        let frame = barCollectionView.convert(cellFrame, to: barCollectionView.superview)
+        let toFrame = barCollectionView.convert(cellFrame, to: barCollectionView.superview)
         
-        let indicatorFrame = CGRect(x: frame.minX + indicatorHInset,
-                                    y: barCollectionView.frame.height - indicatorHeight,
-                                    width: frame.width - (indicatorHInset*2),
-                                    height: indicatorHeight)
+        let xPosition = toFrame.minX
+        let toWidth   = toFrame.width
         
-        if indicatorView.frame == .zero {
-            // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
-            indicatorView.frame = indicatorFrame
+        let finalWidth: CGFloat
+        let finalHeight: CGFloat
+        let finalXPosition: CGFloat
+        let finalYPosition: CGFloat
+        
+        switch indicatorStyle {
+            case .line:
+                finalXPosition = xPosition + indicatorHInset
+                finalWidth = toWidth - (indicatorHInset*2)
+                finalHeight = indicatorHeight
+                finalYPosition = barCollectionView.frame.height - indicatorHeight
+            case .capsule:
+                finalXPosition = xPosition + indicatorHInset// - (indicatorCornerRadius/2)
+                finalWidth = toWidth// + indicatorCornerRadius
+                finalHeight = toFrame.height
+                finalYPosition = toFrame.minY
         }
         
-        if animated {
-            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
-                indicatorView.frame = indicatorFrame
-                indicatorView.backgroundColor = configuration?.indicatorColor
-                layoutIfNeeded()
-            } completion: { _ in }
-        } else {
-            indicatorView.frame = indicatorFrame
+        let toIndicatorFrame = CGRect(x: finalXPosition,
+                                      y: finalYPosition,
+                                      width: finalWidth,
+                                      height: finalHeight)
+        
+        _moveIndicator(frame: toIndicatorFrame, animated: animated)
+    }
+    
+    private func _moveIndicator(frame toIndicatorFrame: CGRect, animated: Bool) {
+        if indicatorView.frame == .zero {
+            // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
+            indicatorView.frame = toIndicatorFrame
+            indicatorView.backgroundColor = configuration?.indicatorColor
+            indicatorView.layer.cornerRadius = indicatorCornerRadius
+            layoutIfNeeded()
+        }
+        
+        UIView.animate(withDuration: animated ? 0.2 : 0.0, delay: 0, options: [.curveEaseOut]) { [self] in
+            indicatorView.frame = toIndicatorFrame
+            indicatorView.backgroundColor = configuration?.indicatorColor
+            indicatorView.layer.cornerRadius = indicatorCornerRadius
+            layoutIfNeeded()
+        } completion: { [self] _ in
+            indicatorView.frame = toIndicatorFrame
         }
     }
 }
@@ -395,6 +536,11 @@ extension SKBar {
 
 
 extension SKBar {
+    
+    
+    // MARK: - Size
+    
+    
     private func totalContentSize(withCVInsets: Bool = false) -> CGFloat {
         var allCellsWidth: CGFloat = 0
         for item in items {
@@ -405,15 +551,26 @@ extension SKBar {
         if withCVInsets {
             allCellsWidth += contentInset.left + contentInset.right
         }
+        
         return allCellsWidth
     }
     
     private func itemSize(_ item: SKBarContentModel) -> CGFloat {
         switch theme {
             case .title:
-                return SKBarLabelCell.size(text: item.title, font: configuration?.font).width
+                var itemWidth = SKBarLabelCell.size(text: item.title, font: configuration?.font).width
+                itemWidth += indicatorCornerRadius
+                if itemWidth < minimumItemWidth {
+                    itemWidth = minimumItemWidth
+                }
+                return itemWidth
             case .imageAndTitle:
-                return SKBarImageLabelCell.size(text: item.title, font: configuration?.font).width
+                var itemWidth = SKBarImageLabelCell.size(text: item.title, font: configuration?.font).width
+                itemWidth += indicatorCornerRadius
+                if minimumItemWidth > itemWidth {
+                    itemWidth = minimumItemWidth
+                }
+                return itemWidth
         }
     }
 }
