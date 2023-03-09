@@ -15,6 +15,7 @@ class MainViewController: UIViewController {
     let skBarTEx2 = SKBar.tex2(edgePadding: 0, interItemSpacing: 15)
     let skBarTEx3 = SKBar.tex3(edgePadding: 0, interItemSpacing: 10)
     let skBarTEx4 = SKBar.tex4(edgePadding: 20, interItemSpacing: 4)
+    let skBarTEx5 = SKBar.tex5(edgePadding: 20, interItemSpacing: 4)
     
     let skBarEx4 = SKBar.ex4(edgePadding: 15, interItemSpacing: 28)
     let skBarEx5 = SKBar.ex5(edgePadding: 0, interItemSpacing: 28)
@@ -41,9 +42,13 @@ class MainViewController: UIViewController {
         view.addSubview(skBarTEx4)
         skBarTEx4.easy.layout(Top(spacing).to(skBarTEx3), Leading(), Trailing(), Height(50))
         skBarTEx4.delegate = self
+        
+        view.addSubview(skBarTEx5)
+        skBarTEx5.easy.layout(Top(spacing).to(skBarTEx4), Leading(), Trailing(), Height(50))
+        skBarTEx5.delegate = self
 
         view.addSubview(skBarEx4)
-        skBarEx4.easy.layout(Top(spacing).to(skBarTEx4), Leading(), Trailing(), Height(50))
+        skBarEx4.easy.layout(Top(spacing).to(skBarTEx5), Leading(), Trailing(), Height(50))
         skBarEx4.delegate = self
 
 

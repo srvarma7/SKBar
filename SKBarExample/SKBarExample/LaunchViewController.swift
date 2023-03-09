@@ -10,7 +10,7 @@ import EasyPeasy
 
 class LaunchViewController: UIViewController {
     
-    var isPlayground: Bool = true
+    var isPlayground: Bool = false
     
     let label = UILabel()
     

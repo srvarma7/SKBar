@@ -182,8 +182,11 @@ public class SKBar: UIView {
     public required init(frame: CGRect, theme: SKBarContentType) {
         self.theme = theme
         super.init(frame: frame)
+        
+        addSubview(underlineView)
         addSubview(indicatorView)
         addSubview(barCollectionView)
+        
         barCollectionView.easy.layout(
             Top(),
             Leading(),
@@ -191,7 +194,6 @@ public class SKBar: UIView {
             Bottom()
         )
         
-        addSubview(underlineView)
         underlineView.easy.layout(
             Bottom(),
             Leading(),
