@@ -456,7 +456,7 @@ extension SKBar {
         let toFrame   = barCollectionView.convert(toCell.frame, to: barCollectionView.superview)
         
         let xPosition = (fromFrame.minX * (1 - percentage)) + toFrame.minX * percentage
-        let toWidth   = (fromFrame.width * (1 - percentage)) + toFrame.width * percentage
+        let width     = (fromFrame.width * (1 - percentage)) + toFrame.width * percentage
         
         let finalWidth: CGFloat
         let finalHeight: CGFloat
@@ -466,12 +466,12 @@ extension SKBar {
         switch indicatorStyle {
             case .line:
                 finalXPosition = xPosition + indicatorHInset
-                finalWidth = toWidth - (indicatorHInset*2)
+                finalWidth = width - (indicatorHInset*2)
                 finalHeight = indicatorHeight
                 finalYPosition = barCollectionView.frame.height - indicatorHeight
             case .capsule:
                 finalXPosition = xPosition + indicatorHInset// - (indicatorCornerRadius/2)
-                finalWidth = toWidth// + indicatorCornerRadius
+                finalWidth = width// + indicatorCornerRadius
                 finalHeight = toFrame.height
                 finalYPosition = toFrame.minY
         }
@@ -481,17 +481,70 @@ extension SKBar {
                                       width: finalWidth,
                                       height: finalHeight)
         
-        _moveIndicator(frame: toIndicatorFrame, animated: true)
+        print("fromFrame       ", fromFrame)
+        print("toFrame         ", toFrame)
+        print("toIndicatorFrame", toIndicatorFrame, "\n")
+        
+        if indicatorView.frame == .zero {
+            // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
+            indicatorView.frame = toIndicatorFrame
+            indicatorView.layer.cornerRadius = indicatorCornerRadius
+        }
+        
+        UIView.animate(withDuration: 0.0, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
+            indicatorView.frame = toIndicatorFrame
+            indicatorView.layer.cornerRadius = indicatorCornerRadius
+            layoutIfNeeded()
+        } completion: { _ in }
     }
+    
+//    public func moveIndicator(forPercentage percentage: CGFloat, from: Int, to: Int) {
+//        let fromIndexPath = IndexPath(row: from, section: 0)
+//        let toIndexPath   = IndexPath(row: to, section: 0)
+//
+//        guard let fromCell = barCollectionView.cellForItem(at: fromIndexPath) else { return }
+//        guard let toCell   = barCollectionView.cellForItem(at: toIndexPath) else { return }
+//
+//        let fromFrame = barCollectionView.convert(fromCell.frame, to: barCollectionView.superview)
+//        let toFrame   = barCollectionView.convert(toCell.frame, to: barCollectionView.superview)
+//
+//        let xPosition = (fromFrame.minX * (1 - percentage)) + toFrame.minX * percentage
+//        let toWidth   = (fromFrame.width * (1 - percentage)) + toFrame.width * percentage
+//
+//        let finalWidth: CGFloat
+//        let finalHeight: CGFloat
+//        let finalXPosition: CGFloat
+//        let finalYPosition: CGFloat
+//
+//        switch indicatorStyle {
+//            case .line:
+//                finalXPosition = xPosition + indicatorHInset
+//                finalWidth = toWidth - (indicatorHInset*2)
+//                finalHeight = indicatorHeight
+//                finalYPosition = barCollectionView.frame.height - indicatorHeight
+//            case .capsule:
+//                finalXPosition = xPosition + indicatorHInset// - (indicatorCornerRadius/2)
+//                finalWidth = toWidth// + indicatorCornerRadius
+//                finalHeight = toFrame.height
+//                finalYPosition = toFrame.minY
+//        }
+//
+//        let toIndicatorFrame = CGRect(x: finalXPosition,
+//                                      y: finalYPosition,
+//                                      width: finalWidth,
+//                                      height: finalHeight)
+//
+//        _moveIndicator(frame: toIndicatorFrame, animated: true)
+//    }
     
     private func moveIndicator(toIndex: Int, animated: Bool = true) {
         let cellIndexPath = IndexPath(row: toIndex, section: 0)
         guard let cell = barCollectionView.cellForItem(at: cellIndexPath) else { return }
         let cellFrame = cell.frame
-        let toFrame = barCollectionView.convert(cellFrame, to: barCollectionView.superview)
+        let frame = barCollectionView.convert(cellFrame, to: barCollectionView.superview)
         
-        let xPosition = toFrame.minX
-        let toWidth   = toFrame.width
+        let xPosition = frame.minX
+        let toWidth   = frame.width
         
         let finalWidth: CGFloat
         let finalHeight: CGFloat
@@ -507,8 +560,8 @@ extension SKBar {
             case .capsule:
                 finalXPosition = xPosition + indicatorHInset// - (indicatorCornerRadius/2)
                 finalWidth = toWidth// + indicatorCornerRadius
-                finalHeight = toFrame.height
-                finalYPosition = toFrame.minY
+                finalHeight = frame.height
+                finalYPosition = frame.minY
         }
         
         let toIndicatorFrame = CGRect(x: finalXPosition,
@@ -516,27 +569,77 @@ extension SKBar {
                                       width: finalWidth,
                                       height: finalHeight)
         
-        _moveIndicator(frame: toIndicatorFrame, animated: animated)
-    }
-    
-    private func _moveIndicator(frame toIndicatorFrame: CGRect, animated: Bool) {
         if indicatorView.frame == .zero {
             // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
             indicatorView.frame = toIndicatorFrame
-            indicatorView.backgroundColor = configuration?.indicatorColor
             indicatorView.layer.cornerRadius = indicatorCornerRadius
-            layoutIfNeeded()
         }
         
-        UIView.animate(withDuration: animated ? 0.2 : 0.0, delay: 0, options: [.curveEaseOut]) { [self] in
-            indicatorView.frame = toIndicatorFrame
-            indicatorView.backgroundColor = configuration?.indicatorColor
-            indicatorView.layer.cornerRadius = indicatorCornerRadius
-            layoutIfNeeded()
-        } completion: { [self] _ in
+        if animated {
+            UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
+                indicatorView.frame = toIndicatorFrame
+                indicatorView.backgroundColor = configuration?.indicatorColor
+                indicatorView.layer.cornerRadius = indicatorCornerRadius
+                layoutIfNeeded()
+            } completion: { _ in }
+        } else {
             indicatorView.frame = toIndicatorFrame
         }
     }
+    
+//    private func moveIndicator(toIndex: Int, animated: Bool = true) {
+//        let cellIndexPath = IndexPath(row: toIndex, section: 0)
+//        guard let cell = barCollectionView.cellForItem(at: cellIndexPath) else { return }
+//        let cellFrame = cell.frame
+//        let toFrame = barCollectionView.convert(cellFrame, to: barCollectionView.superview)
+//
+//        let xPosition = toFrame.minX
+//        let toWidth   = toFrame.width
+//
+//        let finalWidth: CGFloat
+//        let finalHeight: CGFloat
+//        let finalXPosition: CGFloat
+//        let finalYPosition: CGFloat
+//
+//        switch indicatorStyle {
+//            case .line:
+//                finalXPosition = xPosition + indicatorHInset
+//                finalWidth = toWidth - (indicatorHInset*2)
+//                finalHeight = indicatorHeight
+//                finalYPosition = barCollectionView.frame.height - indicatorHeight
+//            case .capsule:
+//                finalXPosition = xPosition + indicatorHInset// - (indicatorCornerRadius/2)
+//                finalWidth = toWidth// + indicatorCornerRadius
+//                finalHeight = toFrame.height
+//                finalYPosition = toFrame.minY
+//        }
+//
+//        let toIndicatorFrame = CGRect(x: finalXPosition,
+//                                      y: finalYPosition,
+//                                      width: finalWidth,
+//                                      height: finalHeight)
+//
+//        _moveIndicator(frame: toIndicatorFrame, animated: animated)
+//    }
+    
+//    private func _moveIndicator(frame toIndicatorFrame: CGRect, animated: Bool) {
+//        if indicatorView.frame == .zero {
+//            // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
+//            indicatorView.frame = toIndicatorFrame
+//            indicatorView.backgroundColor = configuration?.indicatorColor
+//            indicatorView.layer.cornerRadius = indicatorCornerRadius
+//            layoutIfNeeded()
+//        }
+//
+//        UIView.animate(withDuration: animated ? 0.2 : 0.0, delay: 0, options: [.curveEaseOut]) { [self] in
+//            indicatorView.frame = toIndicatorFrame
+//            indicatorView.backgroundColor = configuration?.indicatorColor
+//            indicatorView.layer.cornerRadius = indicatorCornerRadius
+//            layoutIfNeeded()
+//        } completion: { [self] _ in
+//            indicatorView.frame = toIndicatorFrame
+//        }
+//    }
 }
 
 
