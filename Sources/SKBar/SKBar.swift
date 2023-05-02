@@ -481,9 +481,9 @@ extension SKBar {
                                       width: finalWidth,
                                       height: finalHeight)
         
-        print("fromFrame       ", fromFrame)
-        print("toFrame         ", toFrame)
-        print("toIndicatorFrame", toIndicatorFrame, "\n")
+//         print("fromFrame       ", fromFrame)
+//         print("toFrame         ", toFrame)
+//         print("toIndicatorFrame", toIndicatorFrame, "\n")
         
         if indicatorView.frame == .zero {
             // to eliminate the initial indication animation that comes from .zero to indicatorFrame position.
