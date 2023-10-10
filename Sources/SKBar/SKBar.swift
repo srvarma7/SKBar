@@ -449,8 +449,11 @@ extension SKBar {
         let fromIndexPath = IndexPath(row: from, section: 0)
         let toIndexPath   = IndexPath(row: to, section: 0)
         
-        guard let fromCell = barCollectionView.cellForItem(at: fromIndexPath) else { return }
-        guard let toCell   = barCollectionView.cellForItem(at: toIndexPath) else { return }
+        guard let fromCell = barCollectionView.cellForItem(at: fromIndexPath) as? SKBarBaseCell else { return }
+        guard let toCell   = barCollectionView.cellForItem(at: toIndexPath) as? SKBarBaseCell else { return }
+        
+        fromCell.animateState(isActive: false, percentage: percentage, completion: { _ in })
+        toCell.animateState(isActive: true, percentage: percentage, completion: { _ in })
         
         let fromFrame = barCollectionView.convert(fromCell.frame, to: barCollectionView.superview)
         let toFrame   = barCollectionView.convert(toCell.frame, to: barCollectionView.superview)
@@ -494,7 +497,7 @@ extension SKBar {
         UIView.animate(withDuration: 0.0, delay: 0, options: [.curveEaseOut, .beginFromCurrentState]) { [self] in
             indicatorView.frame = toIndicatorFrame
             indicatorView.layer.cornerRadius = indicatorCornerRadius
-            layoutIfNeeded()
+//            layoutIfNeeded()
         } completion: { _ in }
     }
     
@@ -538,6 +541,13 @@ extension SKBar {
 //    }
     
     private func moveIndicator(toIndex: Int, animated: Bool = true) {
+        
+        let oldSelectedIndexPath = IndexPath(row: selectedIndex, section: 0)
+        let newSelectedIndexPath = IndexPath(row: toIndex, section: 0)
+        
+        (barCollectionView.cellForItem(at: oldSelectedIndexPath) as? SKBarBaseCell)?.animateState(isActive: false, percentage: 0.5) { _ in }
+        (barCollectionView.cellForItem(at: newSelectedIndexPath) as? SKBarBaseCell)?.animateState(isActive: true, percentage: 0.5) { _ in }
+        
         let cellIndexPath = IndexPath(row: toIndex, section: 0)
         guard let cell = barCollectionView.cellForItem(at: cellIndexPath) else { return }
         let cellFrame = cell.frame
@@ -580,7 +590,7 @@ extension SKBar {
                 indicatorView.frame = toIndicatorFrame
                 indicatorView.backgroundColor = configuration?.indicatorColor
                 indicatorView.layer.cornerRadius = indicatorCornerRadius
-                layoutIfNeeded()
+//                layoutIfNeeded()
             } completion: { _ in }
         } else {
             indicatorView.frame = toIndicatorFrame

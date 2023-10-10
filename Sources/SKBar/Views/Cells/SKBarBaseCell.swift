@@ -83,6 +83,39 @@ extension SKBarBaseCell {
             imageView.image = toImage
         }
     }
+    
+    func animateState(isActive: Bool, percentage: CGFloat, completion: @escaping (Bool) -> Void) {
+        guard let cellConfiguration = cellConfiguration else {
+            completion(false)
+            return
+        }
+        self.isActive = isActive
+        let baseDuration = 0.3
+        let finalDuration = isActive ? baseDuration + 0.1 : baseDuration
+        
+        let titleColor: UIColor
+        if percentage == 1, isActive {
+            titleColor = cellConfiguration.selectedTitleColor ?? cellConfiguration.titleColor
+        } else if percentage == 0, !isActive {
+            titleColor = cellConfiguration.titleColor
+        } else {
+            titleColor = [cellConfiguration.selectedTitleColor ?? cellConfiguration.titleColor, cellConfiguration.titleColor].intermediate(percentage: percentage)
+        }
+        
+        UIView.transition(with: title, duration: finalDuration, options: .transitionCrossDissolve) { [self] in
+            title.textColor = titleColor
+        }
+        
+        UIView.transition(with: imageView, duration: finalDuration, options: .transitionCrossDissolve) { [self] in
+            var toImage = cellData?.image
+            if let selectedImage = cellData?.selectedImage {
+                toImage = selectedImage
+            } else {
+                imageView.tintColor = isActive ? cellConfiguration.selectedTitleColor : cellConfiguration.titleColor
+            }
+            imageView.image = toImage
+        }
+    }
 }
 
 
@@ -131,5 +164,35 @@ extension SKBarBaseCell {
         contentView.layer.borderColor   = configuration.itemBorderColor?.cgColor
         contentView.layer.borderWidth   = configuration.itemBorderWidth ?? 0
         contentView.backgroundColor     = configuration.itemBackgroundColor
+    }
+}
+
+extension Array where Element: UIColor {
+    func intermediate(percentage: CGFloat) -> UIColor {
+        let percentage = Swift.max(Swift.min(percentage, 100), 0) / 100
+        switch percentage {
+            case 0: return first ?? .clear
+            case 1: return last ?? .clear
+            default:
+                let approxIndex = percentage / (1 / CGFloat(count - 1))
+                let firstIndex = Int(approxIndex.rounded(.down))
+                let secondIndex = Int(approxIndex.rounded(.up))
+                let fallbackIndex = Int(approxIndex.rounded())
+                
+                let firstColor = self[firstIndex]
+                let secondColor = self[secondIndex]
+                let fallbackColor = self[fallbackIndex]
+                
+                var (r1, g1, b1, a1): (CGFloat, CGFloat, CGFloat, CGFloat) = (0, 0, 0, 0)
+                var (r2, g2, b2, a2): (CGFloat, CGFloat, CGFloat, CGFloat) = (0, 0, 0, 0)
+                guard firstColor.getRed(&r1, green: &g1, blue: &b1, alpha: &a1) else { return fallbackColor }
+                guard secondColor.getRed(&r2, green: &g2, blue: &b2, alpha: &a2) else { return fallbackColor }
+                
+                let intermediatePercentage = approxIndex - CGFloat(firstIndex)
+                return UIColor(red: CGFloat(r1 + (r2 - r1) * intermediatePercentage),
+                               green: CGFloat(g1 + (g2 - g1) * intermediatePercentage),
+                               blue: CGFloat(b1 + (b2 - b1) * intermediatePercentage),
+                               alpha: CGFloat(a1 + (a2 - a1) * intermediatePercentage))
+        }
     }
 }
